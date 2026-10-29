@@ -1,0 +1,924 @@
+/**
+ * style.css - Campus Lost-and-Found Portal Stylesheet
+ * Human-Centric Natural Color Palette:
+ * - Base: Crisp White (#FFFFFF) & Soft Neutral Gray (#F8FAFC)
+ * - Navigation & Headings: Classic Deep Slate (#0F172A / #1E293B)
+ * - Lost Items: Natural Clear Red (#DC2626)
+ * - Found Items: Natural Forest Green (#16A34A)
+ * - Pending Claims: Natural Warm Amber (#D97706)
+ * - Resolved / Archived: Natural Slate Gray (#475569)
+ * Clean, accessible, authentic human UI design without artificial gradients or glowing orbs.
+ */
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/custom-properties
+ */
+:root {
+  /* Primary Brand Tones */
+  --brand-navy: #0F172A;
+  --brand-slate: #1E293B;
+  --brand-blue: #2563EB;
+  --brand-blue-hover: #1D4ED8;
+
+  /* Basic Human Status Colors */
+  --status-lost: #DC2626;
+  --status-lost-bg: #FEE2E2;
+  --status-lost-border: #FCA5A5;
+
+  --status-found: #16A34A;
+  --status-found-bg: #DCFCE7;
+  --status-found-border: #86EFAC;
+
+  --status-pending: #D97706;
+  --status-pending-bg: #FEF3C7;
+  --status-pending-border: #FDE68A;
+
+  --status-resolved: #475569;
+  --status-resolved-bg: #F1F5F9;
+  --status-resolved-border: #CBD5E1;
+
+  /* Surfaces & Borders */
+  --bg-page: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --border-light: #E2E8F0;
+  --border-medium: #CBD5E1;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+
+  --card-radius: 8px;
+  --transition-default: all 0.2s ease-in-out;
+}
+
+/* Base Document */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+/* Navigation Bar */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.bg-campus-navy {
+  background-color: var(--brand-slate) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.navbar-brand-campus {
+  font-weight: 700;
+  color: #FFFFFF !important;
+  letter-spacing: -0.01em;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.campus-seal-icon {
+  background-color: var(--brand-blue);
+  color: #FFFFFF;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 1.1rem;
+}
+
+/* View Switcher Tabs */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.view-nav .nav-link {
+  color: #CBD5E1;
+  font-weight: 500;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  transition: var(--transition-default);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.view-nav .nav-link:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.view-nav .nav-link.active {
+  color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.16);
+  font-weight: 600;
+}
+
+/* Natural Human Buttons */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.btn-human-lost {
+  background-color: var(--status-lost);
+  border-color: var(--status-lost);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.btn-human-lost:hover {
+  background-color: #B91C1C;
+  border-color: #B91C1C;
+  color: #FFFFFF;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.btn-human-found {
+  background-color: var(--status-found);
+  border-color: var(--status-found);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.btn-human-found:hover {
+  background-color: #15803D;
+  border-color: #15803D;
+  color: #FFFFFF;
+}
+
+/* Hero Section (Natural, Clean, Grounded) */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.hero-section {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--border-light);
+  padding: 2.25rem 0 2rem 0;
+  color: var(--text-primary);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.hero-pill-badge {
+  display: inline-block;
+  background-color: #F1F5F9;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Stat Counter Cards (Clean White Boxes, Natural Shadows) */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.stat-pill {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.stat-pill .stat-number {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.stat-pill .stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* Filter Control Bar */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.filter-toolbar {
+  background: #FFFFFF;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 1.15rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Item Cards (Catalog Grid) */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.item-card {
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  overflow: hidden;
+  transition: var(--transition-default);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.item-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.item-card-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 175px;
+  background-color: #F8FAFC;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.item-card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.item-card-placeholder-icon {
+  font-size: 3rem;
+  color: #94A3B8;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-overlay-type {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-overlay-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: 600;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+}
+
+/* Standard Human Badges */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-lost {
+  background-color: var(--status-lost);
+  color: #FFFFFF;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-found {
+  background-color: var(--status-found);
+  color: #FFFFFF;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-pending {
+  background-color: var(--status-pending);
+  color: #FFFFFF;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-resolved {
+  background-color: var(--status-resolved);
+  color: #FFFFFF;
+}
+
+/* Soft Pill Badges */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-soft-lost {
+  background-color: var(--status-lost-bg);
+  color: var(--status-lost);
+  border: 1px solid var(--status-lost-border);
+  font-weight: 600;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-soft-found {
+  background-color: var(--status-found-bg);
+  color: var(--status-found);
+  border: 1px solid var(--status-found-border);
+  font-weight: 600;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-soft-pending {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending);
+  border: 1px solid var(--status-pending-border);
+  font-weight: 600;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.badge-soft-resolved {
+  background-color: var(--status-resolved-bg);
+  color: var(--status-resolved);
+  border: 1px solid var(--status-resolved-border);
+  font-weight: 600;
+}
+
+/* Interactive Drag-and-Drop Kanban Board */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/grid
+ * https://web.dev/articles/responsive-web-design-basics
+ */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/articles/responsive-web-design-basics
+ * https://web.dev/learn/css
+ */
+@media (max-width: 991px) {
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-col {
+  background: #F1F5F9;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+}
+
+/* Distinctive Human Column Accent Bars */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-col-reported {
+  border-top: 3px solid var(--status-lost);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-col-pending {
+  border-top: 3px solid var(--status-pending);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-col-resolved {
+  border-top: 3px solid var(--status-found);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-header {
+  padding: 0.9rem 1.15rem;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.kanban-card-container {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: var(--transition-default);
+  min-height: 400px;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.kanban-card {
+  background: #FFFFFF;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  padding: 0.9rem;
+  cursor: grab;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  user-select: none;
+  transition: var(--transition-default);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.kanban-card.is-dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.kanban-card-container.drag-over {
+  background-color: #E2E8F0;
+  border: 2px dashed var(--brand-blue);
+  border-radius: 6px;
+}
+
+/* =====================================================================
+ * Simple Modal Styles (Formatted to match User Reference Image)
+ * ===================================================================== */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-dialog {
+  max-width: 530px;
+  margin: 1.5rem auto;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #D1D5DB;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  max-height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.simple-modal form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-header {
+  background-color: #0D6EFD;
+  color: #FFFFFF;
+  padding: 0.85rem 1.25rem;
+  border-bottom: none;
+  flex-shrink: 0;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-body {
+  padding: 1.15rem 1.25rem;
+  background-color: #FFFFFF;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .form-label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #1F2937;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.simple-modal .form-control,
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .form-select {
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.92rem;
+  color: #0F172A;
+  background-color: #FFFFFF;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.simple-modal .form-control:focus,
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .form-select:focus {
+  border-color: #0D6EFD;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .input-group .btn {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  font-size: 0.88rem;
+  padding: 0.45rem 0.95rem;
+  white-space: nowrap;
+}
+
+/* Radio buttons matching reference image format: (•) [icon] Available   ( ) [icon] Issued */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 1.75rem;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-option input[type="radio"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-option.option-lost input[type="radio"] {
+  accent-color: #DC2626;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-option.option-found input[type="radio"] {
+  accent-color: #16A34A;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.simple-modal .modal-footer {
+  border-top: 1px solid #E2E8F0;
+  background-color: #FFFFFF;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+/* Modal Footer Buttons matching Reference Image */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .btn-cancel {
+  background-color: #FFFFFF;
+  border: 1.5px solid #94A3B8;
+  color: #334155;
+  font-weight: 600;
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  transition: var(--transition-default);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.simple-modal .btn-cancel:hover {
+  background-color: #F1F5F9;
+  border-color: #64748B;
+  color: #0F172A;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.simple-modal .btn-save {
+  background-color: #0D6EFD;
+  border: 1.5px solid #0D6EFD;
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 0.45rem 1.45rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 1px 3px rgba(13, 110, 253, 0.3);
+  transition: var(--transition-default);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.simple-modal .btn-save:hover {
+  background-color: #0B5ED7;
+  border-color: #0A58CA;
+  color: #FFFFFF;
+}
+
+/* Single-View Drag-and-Drop Resolution Drop Target */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.drop-resolution-zone {
+  background-color: #FFFFFF;
+  border: 2px dashed #94A3B8;
+  border-radius: 8px;
+  padding: 1.15rem 1.35rem;
+  transition: var(--transition-default);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.drop-resolution-zone.drag-active {
+  background-color: #F0FDF4;
+  border-color: #16A34A;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.drop-icon-box {
+  width: 44px;
+  height: 44px;
+  background-color: #DCFCE7;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/flexbox
+ * https://web.dev/learn/css
+ */
+.status-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 0.2rem;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.status-radio-label input[type="radio"] {
+  cursor: pointer;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* Upload Drop Area */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.upload-drop-zone {
+  border: 2px dashed var(--border-medium);
+  border-radius: var(--card-radius);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  background-color: #F8FAFC;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.upload-drop-zone:hover,
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css/transitions
+ * https://web.dev/learn/css
+ */
+.upload-drop-zone.drag-active {
+  border-color: var(--brand-blue);
+  background-color: #EFF6FF;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.upload-preview-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.upload-preview-img {
+  max-height: 180px;
+  max-width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+}
+
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.upload-preview-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--status-lost);
+  color: #FFFFFF;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* Geolocation feedback */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.geo-feedback-box {
+  background: #F8FAFC;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+/* Toasts */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1090;
+}
+
+/* Footer */
+/* Google reference(s) for the CSS concepts used in this rule:
+ * https://web.dev/learn/css
+ */
+footer {
+  margin-top: auto;
+  background-color: #FFFFFF;
+  border-top: 1px solid var(--border-light);
+}

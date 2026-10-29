@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Lost-and-Found Portal</title>
+
+  <!-- Google Fonts: Inter
+       Reference: https://developers.google.com/fonts/docs/css2
+       Font selection: https://fonts.google.com/specimen/Inter
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CSS
+       Reference: https://getbootstrap.com/docs/5.3/getting-started/introduction/
+       Grid: https://getbootstrap.com/docs/5.3/layout/grid/
+  -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons
+       Reference: https://icons.getbootstrap.com/
+  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS
+       Reference: https://developer.mozilla.org/en-US/docs/Web/CSS
+  -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- TOP CAMPUS NAVIGATION BAR
+       Navbar: https://getbootstrap.com/docs/5.3/components/navbar/
+       Containers: https://getbootstrap.com/docs/5.3/layout/containers/
+       Flex utilities: https://getbootstrap.com/docs/5.3/utilities/flex/
+       Typography: https://getbootstrap.com/docs/5.3/content/typography/
+       Icons: https://icons.getbootstrap.com/
+  -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-campus-navy sticky-top">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand navbar-brand-campus d-flex align-items-center gap-2" href="#">
+        <span class="campus-seal-icon"><i class="bi bi-mortarboard-fill"></i></span>
+        <span>
+          <span class="d-block lh-1 text-uppercase small text-white-50 fw-semibold"
+                style="font-size: 0.68rem; letter-spacing: 0.08em;">
+            Campus Service
+          </span>
+          <span class="fs-5 fw-bold">CampusFinder</span>
+        </span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO HEADER AND STATISTICS
+       Grid: https://getbootstrap.com/docs/5.3/layout/grid/
+       Typography: https://getbootstrap.com/docs/5.3/content/typography/
+       Buttons: https://getbootstrap.com/docs/5.3/components/buttons/
+       JavaScript events: https://developer.mozilla.org/en-US/docs/Web/API/Event
+  -->
+  <header class="hero-section">
+    <div class="container-fluid px-lg-4">
+      <div class="row align-items-center gy-4">
+
+        <div class="col-lg-7">
+          <h1 class="display-6 fw-bold mb-3 text-dark">
+            Lost or Found Something on Campus?
+          </h1>
+
+          <div class="d-flex flex-wrap gap-2">
+
+            <!-- Button reference:
+                 https://getbootstrap.com/docs/5.3/components/buttons/
+            -->
+            <button class="btn btn-human-lost fw-bold px-4 py-2 shadow-sm"
+                    onclick="openReportModal('lost')">
+              <i class="bi bi-search me-1"></i> Report Lost
+            </button>
+
+            <button class="btn btn-human-found fw-bold px-4 py-2 shadow-sm"
+                    onclick="openReportModal('found')">
+              <i class="bi bi-plus-circle me-1"></i> Report Found
+            </button>
+
+          </div>
+        </div>
+
+        <!-- METRIC STAT CARDS
+             Grid: https://getbootstrap.com/docs/5.3/layout/grid/
+             Flex utilities: https://getbootstrap.com/docs/5.3/utilities/flex/
+             Icons: https://icons.getbootstrap.com/
+             DOM updates: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+        -->
+        <div class="col-lg-5">
+          <div class="row g-3">
+
+            <div class="col-6">
+              <div class="stat-pill">
+                <i class="bi bi-folder2-open text-primary fs-3"></i>
+                <div>
+                  <div class="stat-number text-dark" id="statTotal">--</div>
+                  <div class="stat-label">Total Reports</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="stat-pill">
+                <i class="bi bi-exclamation-circle text-danger fs-3"></i>
+                <div>
+                  <div class="stat-number text-danger" id="statLost">--</div>
+                  <div class="stat-label">Lost Items</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="stat-pill">
+                <i class="bi bi-check-circle text-success fs-3"></i>
+                <div>
+                  <div class="stat-number text-success" id="statFound">--</div>
+                  <div class="stat-label">Found Items</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="stat-pill">
+                <i class="bi bi-shield-check text-secondary fs-3"></i>
+                <div>
+                  <div class="stat-number text-secondary" id="statResolved">--</div>
+                  <div class="stat-label">Resolved / Returned</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTER AND SEARCH TOOLBAR
+       Bootstrap Forms: https://getbootstrap.com/docs/5.3/forms/overview/
+       Input Groups: https://getbootstrap.com/docs/5.3/forms/input-group/
+       HTML Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+       HTML Select: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+  -->
+  <div class="container-fluid px-lg-4 mb-4">
+    <div class="filter-toolbar">
+      <div class="row g-3 align-items-center">
+
+        <!-- LIVE KEYWORD SEARCH
+             Input event: https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event
+             Input value: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/value
+             JavaScript events: https://developer.mozilla.org/en-US/docs/Web/Events
+        -->
+        <div class="col-lg-4 col-md-6">
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+
+            <input type="text"
+                   id="searchInput"
+                   class="form-control border-start-0 ps-0"
+                   placeholder="Search by item name, location, keywords..."
+                   oninput="handleFilterChange()">
+
+            <button class="btn btn-outline-secondary border-start-0"
+                    type="button"
+                    onclick="clearSearch()"
+                    title="Clear search">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- CATEGORY DROPDOWN FILTER
+             HTML Select: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+             Change event: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
+        -->
+        <div class="col-lg-3 col-md-6">
+          <select id="categoryFilter"
+                  class="form-select"
+                  onchange="handleFilterChange()">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+
+        <!-- CAMPUS LOCATION FILTER
+             HTML Select: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+        -->
+        <div class="col-lg-3 col-md-6">
+          <select id="locationFilter"
+                  class="form-select"
+                  onchange="handleFilterChange()">
+            <option value="all">All Campus Locations</option>
+            <option value="Library">Central Campus Library</option>
+            <option value="Science Complex">Science Complex B</option>
+            <option value="Engineering Hall">Engineering Hall</option>
+            <option value="Student Union">Student Union & Cafeteria</option>
+            <option value="Sports Complex">Sports Complex & Gym</option>
+            <option value="Hostel">Hostel & Dormitories</option>
+            <option value="Transit Center">Campus Transit Center</option>
+          </select>
+        </div>
+
+        <!-- ITEM TYPE RADIO FILTER
+             Bootstrap Button Group: https://getbootstrap.com/docs/5.3/components/button-group/
+             Radio Inputs: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
+        -->
+        <div class="col-lg-2 col-md-6 d-flex justify-content-lg-end">
+          <div class="btn-group w-100" role="group">
+
+            <input type="radio"
+                   class="btn-check"
+                   name="typeRadio"
+                   id="typeAll"
+                   value="all"
+                   checked
+                   onchange="handleFilterChange()">
+            <label class="btn btn-outline-primary btn-sm" for="typeAll">All</label>
+
+            <input type="radio"
+                   class="btn-check"
+                   name="typeRadio"
+                   id="typeLost"
+                   value="lost"
+                   onchange="handleFilterChange()">
+            <label class="btn btn-outline-danger btn-sm" for="typeLost">Lost</label>
+
+            <input type="radio"
+                   class="btn-check"
+                   name="typeRadio"
+                   id="typeFound"
+                   value="found"
+                   onchange="handleFilterChange()">
+            <label class="btn btn-outline-success btn-sm" for="typeFound">Found</label>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN LISTINGS CONTAINER
+       Bootstrap Containers: https://getbootstrap.com/docs/5.3/layout/containers/
+       Spacing utilities: https://getbootstrap.com/docs/5.3/utilities/spacing/
+  -->
+  <main class="container-fluid px-lg-4 pb-5 flex-grow-1">
+
+    <!-- DRAG-AND-DROP RESOLUTION ZONE
+         HTML Drag and Drop API: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+         Drag events: https://developer.mozilla.org/en-US/docs/Web/API/DragEvent
+         CSS borders: https://developer.mozilla.org/en-US/docs/Web/CSS/border
+    -->
+    <div class="drop-resolution-zone mb-4" id="dropResolutionZone">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-3">
+          <div class="drop-icon-box">
+            <i class="bi bi-check2-circle fs-3 text-success"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-0 text-dark">drag and drop</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPUS LISTINGS HEADER
+         Bootstrap Badges: https://getbootstrap.com/docs/5.3/components/badge/
+         Bootstrap Icons: https://icons.getbootstrap.com/
+    -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h5 class="fw-bold mb-0 text-dark">
+        <i class="bi bi-collection-fill text-primary me-2"></i>
+        Campus Lost & Found Listings
+        <span class="badge bg-secondary ms-2 fw-normal" id="catalogCountBadge">
+          0 Items
+        </span>
+      </h5>
+    </div>
+
+    <!-- DYNAMIC ITEM CARD GRID
+         Bootstrap Grid: https://getbootstrap.com/docs/5.3/layout/grid/
+         Bootstrap Cards: https://getbootstrap.com/docs/5.3/components/card/
+         DOM createElement: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+         DOM appendChild: https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+    -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"
+         id="catalogGrid">
+      <!-- Rendered dynamically by app.js -->
+    </div>
+
+    <!-- EMPTY STATE
+         Bootstrap Display utilities: https://getbootstrap.com/docs/5.3/utilities/display/
+         Bootstrap Buttons: https://getbootstrap.com/docs/5.3/components/buttons/
+    -->
+    <div id="catalogEmptyState" class="text-center py-5 d-none">
+      <div class="mb-3">
+        <i class="bi bi-search text-muted display-4"></i>
+      </div>
+
+      <h4 class="fw-semibold text-secondary">
+        No matching campus items found
+      </h4>
+
+      <p class="text-muted small">
+        Try broadening your search criteria or resetting filters.
+      </p>
+
+      <button class="btn btn-primary btn-sm mt-2"
+              onclick="resetFilters()">
+        Reset All Filters
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ============================================================= -->
+  <!-- REPORT ITEM MODAL: LOST / FOUND                               -->
+  <!-- References:
+       Bootstrap Modal: https://getbootstrap.com/docs/5.3/components/modal/
+       Bootstrap Forms: https://getbootstrap.com/docs/5.3/forms/overview/
+       Form Validation: https://getbootstrap.com/docs/5.3/forms/validation/
+  -->
+  <div class="modal fade simple-modal"
+       id="reportModal"
+       tabindex="-1"
+       aria-labelledby="reportModalLabel"
+       aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 530px;">
+      <div class="modal-content">
+
+        <!-- MODAL HEADER
+             Bootstrap Modal: https://getbootstrap.com/docs/5.3/components/modal/
+             Bootstrap Icons: https://icons.getbootstrap.com/
+        -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportModalLabel">
+            <i class="bi bi-plus-circle me-2"></i>Report Item
+          </h5>
+
+          <button type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  style="opacity: 1;">
+          </button>
+        </div>
+
+        <!-- REPORT FORM
+             HTML Form: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
+             Submit event: https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event
+             Validation: https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
+        -->
+        <form id="reportForm"
+              class="needs-validation"
+              novalidate
+              onsubmit="handleReportSubmit(event)">
+
+          <div class="modal-body">
+
+            <!-- ITEM TITLE
+                 HTML Label: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
+                 HTML Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+                 Required Attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
+            -->
+            <div class="mb-3">
+              <label for="formTitle" class="form-label">
+                Item Title <span class="text-danger">*</span>
+              </label>
+
+              <input type="text"
+                     class="form-control"
+                     id="formTitle"
+                     required>
+
+              <div class="invalid-feedback">
+                Please provide an item title.
+              </div>
+            </div>
+
+            <!-- CAMPUS LOCATION AND GEOLOCATION
+                 Geolocation API: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
+                 Get Current Position: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
+                 HTML Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+            -->
+            <div class="mb-3">
+              <label for="formLocation" class="form-label">
+                Campus Location <span class="text-danger">*</span>
+              </label>
+
+              <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       id="formLocation"
+                       required>
+
+                <button class="btn btn-primary fw-bold px-3"
+                        type="button"
+                        id="btnDetectLocation"
+                        onclick="detectCampusLocation()"
+                        title="Auto-Detect GPS">
+                  <i class="bi bi-geo-alt-fill me-1"></i> Detect
+                </button>
+              </div>
+
+              <div class="invalid-feedback">
+                Please specify the campus location.
+              </div>
+
+              <!-- GEOLOCATION STATUS AND FALLBACK
+                   Geolocation: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
+                   Hidden Inputs: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
+                   Bootstrap Display: https://getbootstrap.com/docs/5.3/utilities/display/
+              -->
+              <div id="geoStatusBox" class="geo-feedback-box mt-2 d-none">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span id="geoStatusText" class="text-muted small">
+                    Locating device...
+                  </span>
+
+                  <button type="button"
+                          class="btn-close btn-sm"
+                          onclick="hideGeoBox()">
+                  </button>
+                </div>
+
+                <input type="hidden" id="formLat">
+                <input type="hidden" id="formLng">
+              </div>
+            </div>
+
+            <!-- CATEGORY AND DATE
+                 Bootstrap Grid: https://getbootstrap.com/docs/5.3/layout/grid/
+                 HTML Select: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+                 Date Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+            -->
+            <div class="row g-3 mb-3">
+
+              <div class="col-6">
+                <label for="formCategory" class="form-label">
+                  Category <span class="text-danger">*</span>
+                </label>
+
+                <select class="form-select" id="formCategory" required>
+                  <option value="" disabled selected>
+                    Select category...
+                  </option>
+                </select>
+
+                <div class="invalid-feedback">
+                  Please select a category.
+                </div>
+              </div>
+
+              <div class="col-6">
+                <label for="formDate" class="form-label">
+                  Date Occurred <span class="text-danger">*</span>
+                </label>
+
+                <input type="date"
+                       class="form-control"
+                       id="formDate"
+                       required>
+
+                <div class="invalid-feedback">
+                  Please select the date.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- DETAILED DESCRIPTION
+                 HTML Textarea: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
+            -->
+            <div class="mb-3">
+              <label for="formDescription" class="form-label">
+                Detailed Description <span class="text-danger">*</span>
+              </label>
+
+              <textarea class="form-control"
+                        id="formDescription"
+                        rows="2"
+                        required></textarea>
+
+              <div class="invalid-feedback">
+                Please provide item details.
+              </div>
+            </div>
+
+            <!-- LOST / FOUND STATUS
+                 Radio Inputs: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
+                 Bootstrap Flex: https://getbootstrap.com/docs/5.3/utilities/flex/
+                 Bootstrap Colors: https://getbootstrap.com/docs/5.3/utilities/colors/
+            -->
+            <div class="mb-3">
+              <label class="form-label">
+                Status <span class="text-danger">*</span>
+              </label>
+
+              <div class="d-flex align-items-center pt-1">
+
+                <label class="status-radio-option option-lost text-danger">
+                  <input type="radio"
+                         name="modalItemType"
+                         id="typeModalLost"
+                         value="lost"
+                         checked>
+                  <i class="bi bi-exclamation-circle-fill"></i> Lost Item
+                </label>
+
+                <label class="status-radio-option option-found text-success">
+                  <input type="radio"
+                         name="modalItemType"
+                         id="typeModalFound"
+                         value="found">
+                  <i class="bi bi-check-circle-fill"></i> Found Item
+                </label>
+
+              </div>
+            </div>
+
+            <!-- CONTACT NAME AND EMAIL
+                 HTML Label: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
+                 Text Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+                 Email Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
+                 Form Validation: https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
+            -->
+            <div class="row g-3 mb-3">
+
+              <div class="col-6">
+                <label for="formContactName" class="form-label">
+                  Contact Name <span class="text-danger">*</span>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       id="formContactName"
+                       required>
+
+                <div class="invalid-feedback">
+                  Contact name is required.
+                </div>
+              </div>
+
+              <div class="col-6">
+                <label for="formContactEmail" class="form-label">
+                  Contact Email <span class="text-danger">*</span>
+                </label>
+
+                <input type="email"
+                       class="form-control"
+                       id="formContactEmail"
+                       required>
+
+                <div class="invalid-feedback">
+                  Valid email is required.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- PHONE NUMBER AND IMAGE URL
+                 Telephone Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel
+                 URL Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url
+                 Input Events: https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event
+            -->
+            <div class="row g-3 mb-3">
+
+              <div class="col-6">
+                <label for="formContactPhone" class="form-label">
+                  Phone Number
+                </label>
+
+                <input type="tel"
+                       class="form-control"
+                       id="formContactPhone">
+              </div>
+
+              <div class="col-6">
+                <label for="formImageUrl" class="form-label">
+                  Image URL
+                </label>
+
+                <input type="url"
+                       class="form-control"
+                       id="formImageUrl"
+                       oninput="handleImageUrlInput(event)">
+              </div>
+
+            </div>
+
+            <!-- PHOTO FILE UPLOAD
+                 HTML File Input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+                 File API: https://developer.mozilla.org/en-US/docs/Web/API/File_API
+                 Change Event: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
+            -->
+            <div class="mb-2">
+              <label for="formImageFile" class="form-label">
+                Photo Attachment
+              </label>
+
+              <input type="file"
+                     id="formImageFile"
+                     class="form-control"
+                     accept="image/*"
+                     onchange="handleImageFileSelect(event)">
+            </div>
+
+            <!-- IMAGE PREVIEW
+                 HTML Image: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
+                 FileReader: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+                 Data URL: https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+            -->
+            <div id="uploadPreviewWrapper" class="text-center mt-2 d-none">
+              <div class="upload-preview-container">
+
+                <img id="uploadPreviewImg"
+                     src=""
+                     alt="Preview"
+                     class="upload-preview-img">
+
+                <button type="button"
+                        class="upload-preview-remove"
+                        onclick="removeSelectedImage()"
+                        title="Remove image">
+                  <i class="bi bi-x"></i>
+                </button>
+
+              </div>
+            </div>
+
+            <input type="hidden" id="formImageBase64">
+
+          </div>
+
+          <!-- MODAL FOOTER AND FORM SUBMISSION
+               Bootstrap Modal: https://getbootstrap.com/docs/5.3/components/modal/
+               Buttons: https://getbootstrap.com/docs/5.3/components/buttons/
+               Spinners: https://getbootstrap.com/docs/5.3/components/spinners/
+               Disabled Attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+          -->
+          <div class="modal-footer">
+
+            <button type="button"
+                    class="btn btn-cancel"
+                    data-bs-dismiss="modal">
+              Cancel
+            </button>
+
+            <button type="submit"
+                    class="btn btn-save"
+                    id="btnSubmitReport">
+              <span class="spinner-border spinner-border-sm me-1 d-none"
+                    id="submitSpinner"></span>
+
+              <i class="bi bi-check-lg"></i>
+              <span id="btnSubmitLabel">Save Report</span>
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- ITEM DETAILS MODAL                                            -->
+  <!-- References:
+       Bootstrap Modal: https://getbootstrap.com/docs/5.3/components/modal/
+       DOM Manipulation: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
+       Bootstrap Dropdowns: https://getbootstrap.com/docs/5.3/components/dropdowns/
+  -->
+  <div class="modal fade"
+       id="itemDetailsModal"
+       tabindex="-1"
+       aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+
+        <div class="modal-header bg-campus-navy text-white">
+          <h5 class="modal-title fw-bold" id="detailModalTitle">
+            Item Details
+          </h5>
+
+          <button type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <!-- Item details are populated dynamically by app.js -->
+        <div class="modal-body p-4" id="detailModalBody">
+        </div>
+
+        <div class="modal-footer bg-light px-4 py-3 d-flex justify-content-between">
+
+          <!-- Status dropdown or resolve button is inserted here -->
+          <div id="detailModalStatusControls"
+               class="d-flex align-items-center gap-2">
+          </div>
+
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal">
+            Close
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DELETE CONFIRMATION MODAL                                     -->
+  <!-- References:
+       Bootstrap Modal: https://getbootstrap.com/docs/5.3/components/modal/
+       Bootstrap Buttons: https://getbootstrap.com/docs/5.3/components/buttons/
+       Bootstrap Icons: https://icons.getbootstrap.com/
+       JavaScript Events: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+  -->
+  <div class="modal fade"
+       id="deleteConfirmModal"
+       tabindex="-1"
+       aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow">
+
+        <div class="modal-body p-4 text-center">
+
+          <i class="bi bi-exclamation-triangle text-danger display-4 mb-3 d-block"></i>
+
+          <h5 class="fw-bold mb-2">Delete Report?</h5>
+
+          <p class="text-muted small mb-4">
+            This action cannot be undone. Are you sure you wish to delete this record?
+          </p>
+
+          <div class="d-flex justify-content-center gap-2">
+
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm px-3"
+                    data-bs-dismiss="modal">
+              Cancel
+            </button>
+
+            <button type="button"
+                    class="btn btn-danger btn-sm px-3"
+                    id="btnConfirmDelete">
+              Delete Item
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER
+       Bootstrap Toasts: https://getbootstrap.com/docs/5.3/components/toasts/
+       Bootstrap JavaScript: https://getbootstrap.com/docs/5.3/getting-started/javascript/
+  -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- FOOTER
+       Containers: https://getbootstrap.com/docs/5.3/layout/containers/
+       Spacing: https://getbootstrap.com/docs/5.3/utilities/spacing/
+       Text utilities: https://getbootstrap.com/docs/5.3/utilities/text/
+  -->
+  <footer class="py-3">
+    <div class="container-fluid px-lg-4 text-center text-muted small"></div>
+  </footer>
+
+  <!-- BOOTSTRAP JAVASCRIPT BUNDLE
+       Reference: https://getbootstrap.com/docs/5.3/getting-started/javascript/
+       Modal methods: https://getbootstrap.com/docs/5.3/components/modal/#methods
+       Toast methods: https://getbootstrap.com/docs/5.3/components/toasts/#methods
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- APPLICATION JAVASCRIPT
+       JavaScript Guide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide
+       DOM: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+       Functions: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+       Events: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events
+       Array Filtering: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+       File API: https://developer.mozilla.org/en-US/docs/Web/API/File_API
+       Geolocation: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
+
+       Note: The actual implementations of the functions below are in app.js.
+  -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
